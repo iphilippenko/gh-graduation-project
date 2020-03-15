@@ -6,6 +6,8 @@
 $ npm install
 or
 $ yarn
+
+$ npm run client:install-dependencies
 ```
 
 ## Running the database
@@ -17,6 +19,8 @@ $ docker-compose up database
 ## Running the app
 
 ```bash
+$ npm run client:build
+
 $ npm start
 or
 $ yarn start

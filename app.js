@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 (async () => {
   await require('./api/loaders').default();
   require('./api/middlewares/passport');
+  require('./api/loaders/webClient').default(app, express, config);
   require('./api/api-routes').default(app);
 
   app.use(require('./api/middlewares/errorHandler').errorHandler);
