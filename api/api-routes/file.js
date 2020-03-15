@@ -24,7 +24,7 @@ router.post('/', uploads.single('file'), async (req, res) => {
     return res.status(400).json({ message: 'File is required' });
   }
 
-  res.send(req.file.filename);
+  res.send({ path: req.file.filename });
 });
 
 export default router;
