@@ -1,4 +1,3 @@
-import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -11,13 +10,12 @@ app.use(compression());
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '../client')));
-
 (async () => {
   await require('./api/loaders').default();
+  require('./api/middlewares/passport');
   require('./api/api-routes').default(app);
 
-  app.use(require('./api/middlewares/errorHandler').default);
+  app.use(require('./api/middlewares/errorHandler').errorHandler);
 
   app.listen(config.PORT, () => {
     console.log(`Server listen on port: ${config.PORT}`);
