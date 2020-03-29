@@ -1,23 +1,28 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'image-upload',
   templateUrl: './image-upload.component.html',
   styleUrls: ['./image-upload.component.scss']
 })
-export class ImageUploadComponent implements OnInit {
+export class ImageUploadComponent implements OnInit, OnChanges {
   public selectedImg: File | null = null;
 
   @Input() public width = '120px';
   @Input() public height = '120px';
   @Input() public dummyImageUrl = `/assets/img/dummy-profile.png`;
-  @Input() public imageUrl: string = this.dummyImageUrl;
+  @Input() public imageUrl: string;
   @Output() public fileChanged: EventEmitter<File | null> = new EventEmitter<File | null>();
+  public image = this.imageUrl || this.dummyImageUrl;
 
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.image = this.imageUrl || this.dummyImageUrl;
   }
 
   public onFileChanged(event) {
@@ -30,7 +35,7 @@ export class ImageUploadComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: ProgressEvent) => {
       // tslint:disable-next-line:no-string-literal
-      this.imageUrl = e.currentTarget['result'];
+      this.image = e.currentTarget['result'];
     };
     reader.readAsDataURL(this.selectedImg);
   }

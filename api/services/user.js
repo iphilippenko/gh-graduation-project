@@ -1,4 +1,4 @@
-import { Container } from 'typedi';
+import {Container} from 'typedi';
 
 class UserService {
   constructor(container) {
@@ -13,6 +13,13 @@ class UserService {
 
   async findOne(filters) {
     const user = await this.userModel.findOne(filters);
+    return user;
+  }
+
+  async findOneAndUpdate(filters, data) {
+    const user = await this.userModel.findOneAndUpdate(filters, data, {
+      new: true,
+    });
     return user;
   }
 }

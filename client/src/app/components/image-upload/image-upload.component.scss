@@ -23,13 +23,16 @@
 .avatar-upload {
   position: relative;
   max-width: 205px;
+
   .avatar-edit {
     position: absolute;
     right: 9px;
     z-index: 1;
     top: 4px;
+
     input {
       display: none;
+
       + label {
         display: inline-block;
         width: 27px;
@@ -42,10 +45,12 @@
         cursor: pointer;
         font-weight: normal;
         transition: all .2s ease-in-out;
+
         &:hover {
           background: #f1f1f1;
           border-color: #d6d6d6;
         }
+
         &:after {
           content: "\e942";
           font-family: "primeicons";
@@ -61,6 +66,7 @@
       }
     }
   }
+
   .avatar-preview {
     width: 192px;
     height: 192px;
@@ -68,6 +74,7 @@
     border-radius: 100%;
     border: 6px solid #F8F8F8;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+
     > div {
       width: 100%;
       height: 100%;

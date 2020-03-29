@@ -19,8 +19,6 @@ export class BaseUrlInterceptor implements HttpInterceptor {
       url: environment.baseUrl + req.url
     });
 
-    console.log(environment.baseUrl + req.url);
-
     return next.handle(httpsReq);
   }
 }

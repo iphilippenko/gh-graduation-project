@@ -4,6 +4,7 @@ import {RouterModule} from '@angular/router';
 
 import {ChatRoutingModule} from './chat-routing.module';
 import {ChatComponent} from './chat.component';
+import {LayoutModule} from '../../components/layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import {ChatComponent} from './chat.component';
   imports: [
     CommonModule,
     RouterModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    LayoutModule
   ],
   exports: [
     ChatComponent

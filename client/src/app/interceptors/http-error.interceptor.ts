@@ -37,7 +37,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   }
 
   addErrorMessage(detail) {
-    console.log(detail);
     this.messageService.add({key: 'app-message', severity: 'error', summary: 'Error: ', detail, life: 60000});
   }
 }
