@@ -7,7 +7,7 @@ const userService = Container.get('userService');
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'username',
+      usernameField: 'userName',
       passwordField: 'password',
     },
     (userName, password, done) => {

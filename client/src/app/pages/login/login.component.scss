@@ -1,0 +1,24 @@
+.login-page {
+  height: 100%;
+
+  ::ng-deep {
+    p-card {
+      width: 300px;
+
+      .ui-card-body {
+        padding: 30px;
+      }
+
+      .ui-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+      }
+
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+}

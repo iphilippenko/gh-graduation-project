@@ -11,11 +11,11 @@
   },
   "servers": [
     {
-      "url": "/v1"
+      "url": "/api/v1"
     }
   ],
   "host": "api.example.com",
-  "basePath": "/v1",
+  "basePath": "/api/v1",
   "schemes": [
     "https"
   ],
