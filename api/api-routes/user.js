@@ -16,6 +16,15 @@ router.get('/info', auth, async (req, res) => {
   res.json(userInfo);
 });
 
+router.put('/info', auth, async (req, res) => {
+  if (!req.user || !req.user.id) return res.json(null);
+
+  const { id } = req.user;
+  const user = await userService.findOneAndUpdate({ _id: id }, req.body);
+  const userInfo = user.getUserInfo();
+  res.json(userInfo);
+});
+
 router.post('/login', (req, res, next) => {
   return passport.authenticate(
     'local',

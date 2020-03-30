@@ -1,0 +1,34 @@
+<p-toast [style]="{marginTop: '80px'}" key="registration" position="bottom-center"></p-toast>
+<div class="registration-page" fxLayout="column" fxLayoutAlign="center center">
+  <p-card>
+    <h1>Create Account</h1>
+    <form [formGroup]="registerForm"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          fxFlexOffset="30px"
+          (ngSubmit)="register()">
+
+      <image-upload (fileChanged)="onImageUpload($event)"></image-upload>
+
+      <div class="ui-inputgroup" fxFlexOffset="20px">
+        <span class="ui-inputgroup-addon">
+          <i class="pi pi-user" style="line-height: 1.25;"></i>
+        </span>
+        <input type="text" formControlName="userName" pInputText placeholder="Username">
+      </div>
+
+      <div class="ui-inputgroup" fxFlexOffset="20px">
+        <span class="ui-inputgroup-addon">
+          <i class="pi pi-key" style="line-height: 1.25;"></i>
+        </span>
+        <input type="password" formControlName="password" pPassword placeholder="Password"/>
+      </div>
+
+      <p fxFlexOffset="10px">Already have an account?
+        <a routerLink="/login">Login</a>
+      </p>
+
+      <p-button type="submit" label="Create account" fxFlexOffset="30px" [disabled]="registerForm.invalid"></p-button>
+    </form>
+  </p-card>
+</div>

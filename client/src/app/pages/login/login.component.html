@@ -1,0 +1,36 @@
+<div class="login-page" fxLayout="column" fxLayoutAlign="center center">
+  <p-card>
+    <h1>Log In</h1>
+    <form [formGroup]="loginForm"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          fxFlexOffset="30px"
+          (ngSubmit)="login()">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="pi pi-user" style="line-height: 1.25;"></i>
+        </span>
+        <input type="text" formControlName="userName" pInputText placeholder="Username">
+      </div>
+      <div class="ui-inputgroup" fxFlexOffset="20px">
+        <span class="ui-inputgroup-addon">
+          <i class="pi pi-key" style="line-height: 1.25;"></i>
+        </span>
+        <input type="password"
+               formControlName="password"
+               pPassword
+               placeholder="Password"
+               feedback="false"/>
+      </div>
+      <p fxFlexOffset="10px">Don't have an account?
+        <a routerLink="/registration">Create!</a>
+      </p>
+      <p-button label="Log In"
+                icon="pi pi-sign-in"
+                iconPos="right"
+                fxFlexOffset="30px"
+                [disabled]="loginForm.invalid">
+      </p-button>
+    </form>
+  </p-card>
+</div>

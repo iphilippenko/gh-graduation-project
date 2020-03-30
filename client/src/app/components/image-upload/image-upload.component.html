@@ -1,0 +1,14 @@
+<div class="avatar-upload" [style.maxWidth]="width">
+  <div class="avatar-edit">
+    <input type="file"
+           id="imageUpload"
+           accept="image/*"
+           (change)="onFileChanged($event)">
+    <label for="imageUpload"></label>
+  </div>
+  <div class="avatar-preview" [ngStyle]="{'width': width, 'height': height}">
+    <div id="imagePreview" [style.backgroundImage]="'url('+ image +')'">
+    </div>
+  </div>
+</div>
+
