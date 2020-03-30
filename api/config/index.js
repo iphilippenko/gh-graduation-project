@@ -9,4 +9,5 @@ export default {
   IS_PODUCTION: process.env.NODE_ENV === 'production',
   DB_URL: process.env.DB_URL,
   JWT_SECRET: process.env.JWT_SECRET,
+  CLIENT_BUILD_URL: path.resolve(root('../../') + process.env.CLIENT_BUILD_URL)
 };
