@@ -10,7 +10,7 @@ export class DialogsService {
     private readonly dialogModel: Model<Dialog & Document>,
   ) {}
 
-  create(dialog) {
+  create(dialog: Partial<Dialog>) {
     return this.dialogModel.create(dialog);
   }
 
@@ -22,7 +22,7 @@ export class DialogsService {
     return await this.dialogModel.find({});
   }
 
-  async update(id: Dialog['_id'], dialog) {
+  async update(id: Dialog['_id'], dialog: Partial<Dialog>) {
     return await this.dialogModel.findByIdAndUpdate(
       id,
       { $set: dialog },

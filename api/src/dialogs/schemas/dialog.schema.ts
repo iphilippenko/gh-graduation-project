@@ -1,5 +1,5 @@
 import { prop, buildSchema } from '@typegoose/typegoose';
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty } from '@nestjs/swagger';
 import { Schema } from 'mongoose';
 
 export enum DialogType {
