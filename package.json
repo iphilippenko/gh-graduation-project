@@ -6,37 +6,13 @@
   "author": "FrizenVladyslav <FrizenVladyslav>",
   "license": "MIT",
   "scripts": {
-    "start": "node -r esm app.js",
-    "start:dev": "nodemon -r esm app.js",
+    "api:build": "cd api && npm run build",
+    "api:start": "cd api && npm run start",
+    "api:install-dependencies": "cd api && yarn install",
     "client:build": "cd client && npm run build",
     "client:start": "cd client && npm run start",
     "client:install-dependencies": "cd client && yarn install"
   },
-  "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-prettier": "^3.1.2",
-    "nodemon": "^2.0.2",
-    "prettier": "^1.19.1"
-  },
-  "dependencies": {
-    "ajv": "^6.12.0",
-    "ajv-keywords": "^3.4.1",
-    "body-parser": "^1.19.0",
-    "compression": "^1.7.4",
-    "cors": "^2.8.5",
-    "dotenv-flow": "^3.1.0",
-    "esm": "^3.2.25",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
-    "mongoose": "^5.9.4",
-    "multer": "^1.4.2",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "swagger-ui-express": "^4.1.3",
-    "typedi": "^0.8.0"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }

@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-$ npm install
+$ pm run api:install-dependencies
 or
 $ yarn
 
@@ -21,12 +21,12 @@ $ docker-compose up database
 ```bash
 $ npm run client:build
 
-$ npm start
+$ npm run api:start
 or
-$ yarn start
+$ yarn api:start
 
-# watch mode
-$ npm run start:dev
-or
-$ yarn start:dev
 ```
+
+## OpenAPI (Swagger)
+
+{host}/api-docs
