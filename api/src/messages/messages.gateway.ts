@@ -1,16 +1,17 @@
 import {
   SubscribeMessage,
   WebSocketGateway,
-  OnGatewayInit,
   WebSocketServer,
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Logger, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
-import { MessagesService } from './messages.service';
+import { Auth } from 'src/common/decorators';
 import { CreateMessagDto, DeleteMessageDto, UpdateMessageDto } from './dto';
+import { MessagesService } from './messages.service';
 
+// @Auth()
 @UsePipes(new ValidationPipe({ transform: true }))
 @WebSocketGateway({ namespace: 'messages' })
 export class MessagesGateway
@@ -41,6 +42,11 @@ export class MessagesGateway
   ) {
     const message = await this.messagesService.update(messageId, body);
     client.to(message.dialog).emit('update', message);
+  }
+
+  @SubscribeMessage('typing')
+  async handleTyping(client: Socket, { userId, dialog }) {
+    client.to(dialog).emit('typing', { userId });
   }
 
   handleDisconnect(client: Socket) {

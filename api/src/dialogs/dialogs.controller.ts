@@ -8,14 +8,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/common/decorators';
 import { Dialog } from './schemas/dialog.schema';
 import { CreateDialogDto, UpdateDialogDto } from './dto';
 import { DialogsService } from './dialogs.service';
 
-@ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+Auth();
 @ApiTags('Dialogs')
 @Controller('dialogs')
 export class DialogsController {

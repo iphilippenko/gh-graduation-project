@@ -1,18 +1,21 @@
-import { Controller, UseGuards, Get, Param } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, UseGuards, Get, Param, Query } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { SearchQueries } from 'src/common/dto/SearchQueries.dto';
 import { Message } from './schemas/message.schema';
 import { MessagesService } from './messages.service';
+import { Auth } from 'src/common/decorators';
 
-@ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@Auth()
 @ApiTags('Messages')
 @Controller('messages')
 export class MessagesController {
-  constructor(private readonly dialogsService: MessagesService) {}
+  constructor(private readonly messagesService: MessagesService) {}
 
   @Get(':dialogId')
-  findAll(@Param('dialogId') dialogId: string): Promise<Message[]> {
-    return this.dialogsService.findAll(dialogId);
+  findAll(
+    @Param('dialogId') dialogId: string,
+    @Query() query: SearchQueries,
+  ): Promise<Message[]> {
+    return this.messagesService.findAll(dialogId, query);
   }
 }

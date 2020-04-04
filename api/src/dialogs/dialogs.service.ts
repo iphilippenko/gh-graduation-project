@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Document } from 'mongoose';
 import { Dialog } from './schemas/dialog.schema';
+import { SearchQueries } from 'src/common/dto/SearchQueries.dto';
 
 @Injectable()
 export class DialogsService {
@@ -18,7 +19,7 @@ export class DialogsService {
     return this.dialogModel.findByIdAndDelete(id);
   }
 
-  async findAll(filters?: Dialog) {
+  async findAll(filters?: SearchQueries) {
     return await this.dialogModel.find({});
   }
 

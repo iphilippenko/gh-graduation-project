@@ -6,14 +6,16 @@ import {
   Req,
   Get,
   Put,
+  Query,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiQueries } from 'src/common/decorators/swagger.decorators';
+import { SearchQueries } from 'src/common/dto/SearchQueries.dto';
+import { ApiQueries, Auth } from 'src/common/decorators';
+import { User } from './schemas/user.schema';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { AuthService } from './auth/auth.service';
 import { UsersService } from './users.service';
-import { User } from './schemas/user.schema';
 
 @ApiTags('Users')
 @Controller('users')
@@ -23,7 +25,12 @@ export class UsersController {
     private readonly usersService: UsersService,
   ) {}
 
-  @ApiResponse({ status: 201 })
+  @Auth()
+  @Get()
+  findAll(@Query() query?: SearchQueries) {
+    return this.usersService.findAll(query);
+  }
+
   @ApiQueries([{ name: 'userName' }, { name: 'password' }])
   @UseGuards(AuthGuard('local'))
   @Post('login')
@@ -36,15 +43,13 @@ export class UsersController {
     return this.authService.register(body);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @Auth()
   @Get('info')
   getProfile(@Req() { user: { _id } }): Promise<User> {
     return this.usersService.findById(_id);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @Auth()
   @Put()
   updateProfile(
     @Req() { user: { _id } },
