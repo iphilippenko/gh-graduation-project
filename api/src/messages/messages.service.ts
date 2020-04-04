@@ -1,29 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Document } from 'mongoose';
+import { Model, Document, startSession } from 'mongoose';
+import { DialogsService } from 'src/dialogs/dialogs.service';
 import { Message } from './schemas/message.schema';
 
 @Injectable()
 export class MessagesService {
   constructor(
     @InjectModel('Message')
-    private readonly dialogModel: Model<Message & Document>,
+    private readonly messageModel: Model<Message & Document>,
+    private readonly dialogsService: DialogsService,
   ) {}
 
-  create(message: Partial<Message>) {
-    return this.dialogModel.create(message);
+  async create(data: Partial<Message>) {
+    const message = await this.messageModel.create(data);
+    const { _id, dialog } = message;
+
+    await this.dialogsService.update(dialog, { lastMessage: _id });
+    return message;
   }
 
-  delete(id: Message['_id']) {
-    return this.dialogModel.findByIdAndDelete(id);
+  async delete(id: Message['_id']) {
+    const message = await this.messageModel.findByIdAndDelete(id);
+    const { _id, dialog: dialogId } = message;
+
+    let dialog = await this.dialogsService.findById(dialogId);
+    if (String(dialog.lastMessage) === String(_id)) {
+      const lastMessage = await this.findLastMessage();
+      dialog.lastMessage = lastMessage ? lastMessage._id : '';
+      await dialog.save();
+    }
+
+    return message;
   }
 
   async findAll(dialog: Message['dialog']) {
-    return await this.dialogModel.find({ dialog });
+    return await this.messageModel.find({ dialog });
+  }
+
+  async findLastMessage() {
+    return this.messageModel.findOne({}).sort({ createdAt: 'desc' });
   }
 
   async update(id: Message['_id'], body: Message['body']) {
-    return await this.dialogModel.findByIdAndUpdate(
+    return await this.messageModel.findByIdAndUpdate(
       id,
       { $set: { body } },
       { new: true },

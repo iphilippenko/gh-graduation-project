@@ -22,6 +22,10 @@ export class DialogsService {
     return await this.dialogModel.find({});
   }
 
+  findById(id: Dialog['_id']) {
+    return this.dialogModel.findById(id);
+  }
+
   async update(id: Dialog['_id'], dialog: Partial<Dialog>) {
     return await this.dialogModel.findByIdAndUpdate(
       id,

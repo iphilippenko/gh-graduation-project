@@ -11,8 +11,8 @@ async function bootstrap() {
     logger: new AppLogger(),
   });
 
-  // app.enableCors();
-  // app.setGlobalPrefix('api/v1');
+  app.enableCors();
+  app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(new ValidationPipe());
 
   const { httpAdapter } = app.get(HttpAdapterHost);

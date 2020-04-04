@@ -14,6 +14,7 @@ import config from './common/config';
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
+      retryWrites: false,
     }),
     CommonModule,
     UsersModule,

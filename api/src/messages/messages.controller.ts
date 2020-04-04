@@ -5,7 +5,7 @@ import { Message } from './schemas/message.schema';
 import { MessagesService } from './messages.service';
 
 @ApiBearerAuth()
-@UseGuards(AuthGuard('local'))
+@UseGuards(AuthGuard('jwt'))
 @ApiTags('Messages')
 @Controller('messages')
 export class MessagesController {

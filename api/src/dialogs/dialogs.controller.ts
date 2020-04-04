@@ -15,7 +15,7 @@ import { CreateDialogDto, UpdateDialogDto } from './dto';
 import { DialogsService } from './dialogs.service';
 
 @ApiBearerAuth()
-@UseGuards(AuthGuard('local'))
+@UseGuards(AuthGuard('jwt'))
 @ApiTags('Dialogs')
 @Controller('dialogs')
 export class DialogsController {

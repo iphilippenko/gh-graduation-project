@@ -1,9 +1,12 @@
-import { IsString, IsUUID } from 'class-validator';
+import { IsString, IsMongoId } from 'class-validator';
 
 export class CreateMessagDto {
   @IsString()
-  message: string;
+  body: string;
 
-  @IsUUID()
-  chatId: string;
+  @IsMongoId()
+  dialog: string;
+
+  @IsMongoId()
+  owner: string;
 }
