@@ -9,17 +9,12 @@ import {
   Get,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {
-  ApiTags,
-  ApiBody,
-  ApiConsumes,
-  ApiParam,
-} from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiConsumes, ApiParam } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { FileUploadDto } from './dto/file-upload.dto';
 import { generateFileName, isImage } from './utils/images.util';
 
-const dirName = './uploads'
+const dirName = './uploads';
 
 @ApiTags('Files')
 @Controller('files')

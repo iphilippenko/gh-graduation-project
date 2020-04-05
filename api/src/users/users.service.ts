@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Document } from 'mongoose';
+import * as _ from 'lodash';
+import { SearchQueries } from 'src/common/dto/SearchQueries.dto';
 import { User } from './schemas/user.schema';
 
 @Injectable()
@@ -23,8 +25,15 @@ export class UsersService {
     );
   }
 
-  findAll(filters: Partial<User> = {}) {
-    return this.userModel.find(filters).select(this.unselectPrivateFields);
+  findAll({ search, limit, skip }: SearchQueries = {}) {
+    const filters = search
+      ? { userName: { $regex: search, $options: 'i' } }
+      : {};
+    return this.userModel
+      .find(filters)
+      .select(this.unselectPrivateFields)
+      .skip(skip)
+      .limit(limit);
   }
 
   async findById(id: User['_id']) {

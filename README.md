@@ -30,3 +30,7 @@ $ yarn api:start
 ## OpenAPI (Swagger)
 
 {host}/api-docs
+
+## Documentation
+
+http://localhost:8080/

@@ -4,7 +4,7 @@ import * as fs from 'fs';
 export class AppLogger extends Logger {
   private writeLogToFile(fileName: string, data: object) {
     const stringifiedData = '\n' + JSON.stringify(data);
-    fs.appendFile(fileName, stringifiedData , console.error);
+    fs.appendFile(fileName, stringifiedData, console.error);
   }
 
   error(message: string, trace: string, context: string) {
