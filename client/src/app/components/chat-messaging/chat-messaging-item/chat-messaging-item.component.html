@@ -1,0 +1,9 @@
+<div class="message" [class.message-own]="(auth?.userInfo$ | async)?._id === item?.author?._id">
+  <div class="message-wrapper">
+    <p class="message-text">{{item.message}}</p>
+    <span class="message-date">{{item?.createdAt | date: 'd MMM H:mm'}}</span>
+  </div>
+  <div class="avatar">
+    <img [src]="item?.author?.avatar || '/assets/img/dummy-profile.png'" alt="">
+  </div>
+</div>

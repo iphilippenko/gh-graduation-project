@@ -1,0 +1,21 @@
+<div class="toolbar">
+  <p>
+    <span>To: </span>
+    Chat name
+  </p>
+  <div class="chat-menu">
+    <button (click)="toggle()" class="chat-menu-toggle">
+      <i class="pi pi-ellipsis-v"></i>
+    </button>
+    <ul class="chat-menu-list" [class.chat-menu-list_shown]="menuShown">
+      <li class="chat-menu-list__item" (click)="showMembers()">
+        <i class="pi pi-users"></i>
+        Show members
+      </li>
+      <li class="chat-menu-list__item" (click)="leave()">
+        <i class="pi pi-sign-out"></i>
+        Leave chat
+      </li>
+    </ul>
+  </div>
+</div>

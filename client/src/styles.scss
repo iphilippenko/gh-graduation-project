@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap');
+
+:root {
+  --white: #fff;
+  --black: #000;
+  --bg: #f8f8f8;
+  --grey: #999;
+  --dark: #1a1a1a;
+  --light: #e6e6e6;
+  --blue: #00b0ff;
+}
+
 html {
   max-height: 100vh;
 }
@@ -7,6 +19,18 @@ body {
   width: 100%;
   min-height: 100vh;
   height: 100%;
+  font-family: 'Source Sans Pro', sans-serif;
+
+
+  .ui-button {
+    background: var(--blue);
+    border-color: var(--blue);
+
+    &:enabled:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+  }
 }
 
 ul,
@@ -17,7 +41,7 @@ ol {
 
 p {
   font-size: 14px;
-  color: #334152;
+  color: var(--dark);
 }
 
 a {
@@ -27,14 +51,14 @@ a {
 h1 {
   margin: 0;
   font-size: 28px;
-  color: #007ad9;
+  color: var(--blue);
 }
 
 .ui-toast-bottom-center {
   margin-left: 0;
   transform: translateX(-50%);
 }
+
 .ui-toast {
   width: auto;
 }
-

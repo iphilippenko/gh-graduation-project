@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {UserMenuComponent} from './user-menu.component';
+import {ChatListItemComponent} from './chat-list-item.component';
 
-describe('UserMenuComponent', () => {
-  let component: UserMenuComponent;
-  let fixture: ComponentFixture<UserMenuComponent>;
+describe('ChatListItemComponent', () => {
+  let component: ChatListItemComponent;
+  let fixture: ComponentFixture<ChatListItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UserMenuComponent]
+      declarations: [ChatListItemComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserMenuComponent);
+    fixture = TestBed.createComponent(ChatListItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

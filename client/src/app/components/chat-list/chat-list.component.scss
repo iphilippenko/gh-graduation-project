@@ -1,0 +1,17 @@
+::ng-deep chat-list {
+  ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--light);
+  }
+
+  p-button {
+    margin: 12px 15px 12px auto;
+    display: flex;
+    max-width: fit-content;
+    button.ui-button {
+      border-radius: 50%;
+    }
+  }
+}

@@ -1,7 +1,13 @@
-::ng-deep {
-  p-toolbar {
-    .ui-toolbar {
-      padding: 10px 24px;
-    }
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: end;
+  padding: 6px 24px;
+  background: var(--blue);
+  border-radius: 5px 5px 0 0;
+
+  user-menu {
+    margin-left: auto;
   }
 }
