@@ -14,6 +14,9 @@ export class Dialog {
   @ApiHideProperty()
   _id: string;
 
+  @prop()
+  name: string;
+
   @prop([{ type: Schema.Types.ObjectId, ref: 'User' }])
   owners: User[] | string[];
 
