@@ -6,7 +6,4 @@ export class CreateMessagDto {
 
   @IsMongoId()
   dialog: string;
-
-  @IsMongoId()
-  owner: string;
 }
