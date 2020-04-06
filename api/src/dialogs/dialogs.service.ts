@@ -19,8 +19,8 @@ export class DialogsService {
     return this.dialogModel.findByIdAndDelete(id);
   }
 
-  async findAll(filters?: SearchQueries) {
-    return await this.dialogModel.find({});
+  async findAll(userId) {
+    return await this.dialogModel.find({ members: userId });
   }
 
   findById(id: Dialog['_id']) {
