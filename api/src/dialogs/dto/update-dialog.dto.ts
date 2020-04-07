@@ -1,9 +1,15 @@
-import { IsString } from 'class-validator';
+import { IsString, IsMongoId } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateDialogDto {
-  @IsString({ each: true })
+  @IsString()
+  name: string;
+
+  @ApiProperty({ type: 'array', items: { type: 'string', format: 'uuid' } })
+  @IsMongoId({ each: true })
   owners: string[];
 
-  @IsString({ each: true })
+  @ApiProperty({ type: 'array', items: { type: 'string', format: 'uuid' } })
+  @IsMongoId({ each: true })
   members: string[];
 }

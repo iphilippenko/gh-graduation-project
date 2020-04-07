@@ -10,6 +10,9 @@ export class User {
   @prop({ unique: true, minlength: 3 })
   userName: string;
 
+  @prop()
+  avatar: string;
+
   @ApiHideProperty()
   @prop()
   salt: string;
