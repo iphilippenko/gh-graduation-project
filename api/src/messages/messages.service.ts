@@ -21,9 +21,9 @@ export class MessagesService {
     return message;
   }
 
-  async delete(id: Message['_id']) {
-    const message = await this.messageModel.findByIdAndDelete(id);
-    const { _id, dialog: dialogId } = message;
+  async delete(_id: Message['_id'], owner: string) {
+    const message = await this.messageModel.findOneAndDelete({ _id, owner });
+    const {  dialog: dialogId } = message;
 
     let dialog = await this.dialogsService.findById(dialogId);
     if (String(dialog.lastMessage) === String(_id)) {
@@ -50,9 +50,9 @@ export class MessagesService {
     return this.messageModel.findOne({}).sort({ createdAt: 'desc' });
   }
 
-  async update(id: Message['_id'], body: Message['body']) {
-    return await this.messageModel.findByIdAndUpdate(
-      id,
+  async update(_id: Message['_id'], body: Message['body'], owner: string) {
+    return await this.messageModel.findOneAndUpdate(
+      { _id, owner },
       { $set: { body } },
       { new: true },
     );

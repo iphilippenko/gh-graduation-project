@@ -7,22 +7,27 @@ import {
   Put,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { Auth } from 'src/common/decorators';
 import { Dialog } from './schemas/dialog.schema';
 import { CreateDialogDto, UpdateDialogDto } from './dto';
 import { DialogsService } from './dialogs.service';
+import { AuthGuard } from '@nestjs/passport';
 
-Auth();
+@Auth()
 @ApiTags('Dialogs')
 @Controller('dialogs')
 export class DialogsController {
   constructor(private readonly dialogsService: DialogsService) {}
 
+  // @UseGuards(AuthGuard('jwt'))
   @Get()
-  findAll(): Promise<Dialog[]> {
-    return this.dialogsService.findAll();
+  findAll(@Req() req): Promise<Dialog[]> {
+    console.log(req)
+    const userId = req.user._id
+    return this.dialogsService.findAll(userId);
   }
 
   @Post()

@@ -5,25 +5,30 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Logger, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Logger, UsePipes, ValidationPipe, OnModuleInit } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
-import { Auth } from 'src/common/decorators';
 import { CreateMessagDto, DeleteMessageDto, UpdateMessageDto } from './dto';
 import { MessagesService } from './messages.service';
+import { AuthSocket } from './middlewares/auth.middleware';
 
-// @Auth()
 @UsePipes(new ValidationPipe({ transform: true }))
 @WebSocketGateway({ namespace: 'messages' })
 export class MessagesGateway
-  implements OnGatewayConnection, OnGatewayDisconnect {
+  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit {
+  @WebSocketServer() private readonly server: Server;
+  private readonly logger: Logger = new Logger('MessagesGateway');
+
   constructor(private readonly messagesService: MessagesService) {}
 
-  @WebSocketServer() server: Server;
-  private readonly logger: Logger = new Logger('MessagesGateway');
+  onModuleInit() {
+    this.server.use(AuthSocket);
+  }
 
   @SubscribeMessage('send')
   async handleSendMessage(client: Socket, payload: CreateMessagDto) {
-    const message = await this.messagesService.create(payload);
+    const owner = client.request.user._id;
+
+    const message = await this.messagesService.create({ ...payload, owner });
     const { dialog } = message;
 
     client.to(dialog).emit('send', message);
@@ -31,7 +36,8 @@ export class MessagesGateway
 
   @SubscribeMessage('delete')
   async handleDeleteMessage(client: Socket, { messageId }: DeleteMessageDto) {
-    const message = await this.messagesService.delete(messageId);
+    const owner = client.request.user._id;
+    const message = await this.messagesService.delete(messageId, owner);
     client.to(message.dialog).emit('delete', message);
   }
 
@@ -40,12 +46,14 @@ export class MessagesGateway
     client: Socket,
     { messageId, body }: UpdateMessageDto,
   ) {
-    const message = await this.messagesService.update(messageId, body);
+    const owner = client.request.user._id;
+    const message = await this.messagesService.update(messageId, body, owner);
     client.to(message.dialog).emit('update', message);
   }
 
   @SubscribeMessage('typing')
-  async handleTyping(client: Socket, { userId, dialog }) {
+  async handleTyping(client: Socket, { dialog }) {
+    const userId = client.request.user._id;
     client.to(dialog).emit('typing', { userId });
   }
 
