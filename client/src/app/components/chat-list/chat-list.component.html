@@ -1,4 +1,7 @@
-<p-button icon="pi pi-plus"></p-button>
+<p-button class="add-chat-btn" icon="pi pi-plus" (onClick)="showAddDialog = true"></p-button>
+<p-dialog header="Create chat" [(visible)]="showAddDialog">
+  <add-chat></add-chat>
+</p-dialog>
 <ul>
   <chat-list-item></chat-list-item>
   <chat-list-item></chat-list-item>

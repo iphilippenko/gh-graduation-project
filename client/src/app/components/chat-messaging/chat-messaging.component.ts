@@ -9,7 +9,6 @@ import {AuthService} from '../../services/auth.service';
 })
 export class ChatMessagingComponent implements OnInit, AfterViewInit {
   public currentUser = this.auth.userInfo$.value;
-  public scrollPanelHeight = 400;
   @Input() list = [
     {
       message: 'Hi!',
@@ -47,7 +46,6 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit {
       createdAt: new Date()
     }
   ];
-  @ViewChild('scrollPanel', {static: false}) scrollPanel: ScrollPanel;
   @ViewChild('chatList', {static: false}) chatList: ElementRef<HTMLDivElement>;
 
   constructor(private auth: AuthService) {
@@ -58,9 +56,8 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      const {offsetHeight: height} = this.chatList.nativeElement;
-      this.scrollPanel.scrollTop(height);
-    }, 100);
+      this.chatList.nativeElement.scrollTop = this.chatList.nativeElement.clientHeight;
+    });
   }
 
 }

@@ -21,7 +21,6 @@ body {
   height: 100%;
   font-family: 'Source Sans Pro', sans-serif;
 
-
   .ui-button {
     background: var(--blue);
     border-color: var(--blue);
@@ -31,6 +30,44 @@ body {
       border-color: var(--blue);
     }
   }
+
+  .ui-dialog {
+    .ui-dialog-titlebar {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+  }
+
+  .ui-inputtext {
+    &:enabled:focus:not(.ui-state-error) {
+      border-color: var(--blue);
+    }
+  }
+
+  .ui-autocomplete.ui-autocomplete-multiple {
+    width: 100%;
+    .ui-autocomplete-multiple-container {
+      width: 100%;
+      &:not(.ui-state-disabled) {
+        &.ui-state-focus {
+          border-color: var(--blue);
+        }
+      }
+    }
+  }
+
+  .ui-selectbutton {
+    .ui-button {
+      background: var(--light);
+      &.ui-state-active,
+      &.ui-state-focus,
+      &.ui-state-active:not(.ui-state-disabled):hover {
+        background: var(--blue);
+        border-color: var(--blue);
+      }
+    }
+  }
+
 }
 
 ul,

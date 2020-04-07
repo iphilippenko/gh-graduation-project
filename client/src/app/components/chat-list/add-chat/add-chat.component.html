@@ -1,0 +1,9 @@
+<form [formGroup]="chatForm" fxLayout="column">
+  <p-selectButton [options]="types" formControlName="type"></p-selectButton>
+  <span class="ui-float-label" fxFlexOffset="27px">
+    <input id="float-input" type="text" pInputText formControlName="name" style="width: 100%">
+    <label for="float-input">Chat Name</label>
+  </span>
+  <add-user fxFlexOffset="15px"></add-user>
+  <p-button icon="pi pi-check" label="Create"></p-button>
+</form>

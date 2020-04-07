@@ -1,0 +1,7 @@
+<p-autoComplete [(ngModel)]="texts"
+                [suggestions]="results"
+                [field]="'userName'"
+                [dataKey]="'_id'"
+                (completeMethod)="search($event)"
+                [multiple]="true"
+                placeholder="Add members"></p-autoComplete>

@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./chat-messaging-info.component.scss']
 })
 export class ChatMessagingInfoComponent implements OnInit {
+  public showMembersDialog = false;
   public menuShown = false;
 
   constructor() {
@@ -31,7 +32,8 @@ export class ChatMessagingInfoComponent implements OnInit {
   }
 
   public showMembers() {
-
+    this.showMembersDialog = true;
+    this.menuShown = false;
   }
 
 }

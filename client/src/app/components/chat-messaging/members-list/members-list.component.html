@@ -1,0 +1,18 @@
+<ul>
+  <li fxLayout="row" fxLayoutAlign="start center" *ngFor="let item of members">
+    <div class="avatar">
+      <img *ngIf="item?.avatar" [src]="item?.avatar" alt="">
+    </div>
+    <div fxLayout="column" fxFlex fxFlexOffset="10px">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <b>{{item?.userName}}</b>
+
+        <p-button icon="pi pi-trash" class="ui-button-danger"></p-button>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<add-user></add-user>
+
+<p-button class="save" icon="pi pi-check" label="Save changes"></p-button>

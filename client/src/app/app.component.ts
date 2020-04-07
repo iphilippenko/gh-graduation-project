@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
       filter(val => val),
       mergeMap(() => this.authService.userInfo())
     ).subscribe(user => {
+      console.log(user);
       this.authService.currentUser = user;
       this.authService.userInfo$.next(user);
     });

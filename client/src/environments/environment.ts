@@ -7,7 +7,7 @@ const url = 'http://localhost:5000/api/v1/';
 export const environment = {
   production: false,
   baseUrl: url,
-  fileUrl: `${url}file/`
+  fileUrl: `${url}files/`
 };
 
 /*

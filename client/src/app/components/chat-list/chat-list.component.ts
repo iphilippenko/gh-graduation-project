@@ -9,6 +9,7 @@ import {IChat} from '../../interfaces/chat.interface';
 })
 export class ChatListComponent implements OnInit {
   @Input() items: BehaviorSubject<Array<IChat>>;
+  showAddDialog = false;
 
   constructor() {
   }

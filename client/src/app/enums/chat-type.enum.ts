@@ -1,5 +1,5 @@
 export enum CHAT_TYPES {
-  Channel,
-  Group,
-  Chat
+  private = 'private',
+  group = 'group',
+  channel = 'channel'
 }

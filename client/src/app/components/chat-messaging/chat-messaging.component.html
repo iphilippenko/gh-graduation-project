@@ -1,9 +1,9 @@
 <div class="chat-wrapper">
   <chat-messaging-info></chat-messaging-info>
-  <p-scrollPanel styleClass="chat-list-wrapper" [style]="{height: scrollPanelHeight + 'px'}" #scrollPanel>
-    <div class="chat-list" #chatList>
+  <div class="chat-list-wrapper" #chatList>
+    <div class="chat-list">
       <chat-messaging-item *ngFor="let item of list" [item]="item"></chat-messaging-item>
     </div>
-  </p-scrollPanel>
+  </div>
   <chat-messaging-input></chat-messaging-input>
 </div>
