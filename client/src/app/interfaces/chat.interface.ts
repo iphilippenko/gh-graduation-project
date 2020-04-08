@@ -4,9 +4,9 @@ import {IMessage} from './message.interface';
 export interface IChat {
   _id: string;
   name: string;
-  users: Array<IUser>;
-  messages: Array<IMessage>;
-  owner: IUser;
+  members: Array<IUser>;
+  lastMessage: IMessage;
+  owners: Array<IUser>;
   type: string;
   createdAt: Date;
   updatedAt: Date;

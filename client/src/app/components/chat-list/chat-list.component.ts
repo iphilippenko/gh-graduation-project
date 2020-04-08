@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {IChat} from '../../interfaces/chat.interface';
 
@@ -10,6 +10,8 @@ import {IChat} from '../../interfaces/chat.interface';
 export class ChatListComponent implements OnInit {
   @Input() items: BehaviorSubject<Array<IChat>>;
   showAddDialog = false;
+
+  @Output() chatCreated = new EventEmitter();
 
   constructor() {
   }

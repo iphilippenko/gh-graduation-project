@@ -1,17 +1,7 @@
 <p-button class="add-chat-btn" icon="pi pi-plus" (onClick)="showAddDialog = true"></p-button>
 <p-dialog header="Create chat" [(visible)]="showAddDialog">
-  <add-chat></add-chat>
+  <add-chat (chatCreated)="chatCreated.emit($event); showAddDialog = false;"></add-chat>
 </p-dialog>
 <ul>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
-  <chat-list-item></chat-list-item>
+  <chat-list-item *ngFor="let item of (items | async)" [item]="item"></chat-list-item>
 </ul>

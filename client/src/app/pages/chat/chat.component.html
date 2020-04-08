@@ -1,4 +1,4 @@
 <layout>
-  <chat-list menu></chat-list>
+  <chat-list menu (chatCreated)="createChat($event)" [items]="chatService.chatList$"></chat-list>
   <chat-messaging content></chat-messaging>
 </layout>

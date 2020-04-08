@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { IChat } from '../../../interfaces/chat.interface';
 
 @Component({
   selector: 'chat-list-item',
@@ -6,11 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./chat-list-item.component.scss']
 })
 export class ChatListItemComponent implements OnInit {
-  @Input() item = {
-    img: 'https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
-    name: 'TEst chat',
-    updatedAt: new Date()
-  };
+  @Input() item: IChat;
 
   constructor() {
   }

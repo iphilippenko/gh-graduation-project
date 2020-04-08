@@ -1,12 +1,12 @@
 <li fxLayout="row" fxLayoutAlign="start center">
   <div class="avatar">
-    <img *ngIf="item?.img" [src]="item?.img" alt="">
+    <img [src]="(item?.members[0]?.avatar || item?.lastMessage?.owner?.avatar) | resolveUploads | setDummy" alt="">
   </div>
   <div fxLayout="column" fxFlex fxFlexOffset="10px">
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <b>{{item?.name}}</b>
       <span>{{item?.updatedAt | date: 'd MMM H:mm'}}</span>
     </div>
-    <p fxFlexOffset="7px">some tetxt...</p>
+    <p fxFlexOffset="7px">{{item?.lastMessage?.body}}</p>
   </div>
 </li>

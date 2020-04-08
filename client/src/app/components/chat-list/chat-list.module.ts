@@ -10,6 +10,7 @@ import {ChatListComponent} from './chat-list.component';
 import {ChatListItemComponent} from './chat-list-item/chat-list-item.component';
 import { AddChatComponent } from './add-chat/add-chat.component';
 import {AddUserModule} from '../add-user/add-user.module';
+import {PipesModule} from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {AddUserModule} from '../add-user/add-user.module';
     DialogModule,
     InputTextModule,
     AddUserModule,
+    PipesModule
   ],
   exports: [
     ChatListComponent,
