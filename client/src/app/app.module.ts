@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -14,6 +14,13 @@ import {BaseUrlInterceptor} from './interceptors/base-url.interceptor';
 import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {AuthService} from './services/auth.service';
+import {ChatService} from './services/chat.service';
+
+export function startupServiceFactory(chatService: ChatService, auth: AuthService) {
+  if (auth.isAuthenticated()) {
+    return () => chatService.getChatList().toPromise();
+  }
+}
 
 @NgModule({
   declarations: [
@@ -47,6 +54,13 @@ import {AuthService} from './services/auth.service';
       useClass: AuthInterceptor,
       multi: true,
       deps: [AuthService]
+    },
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: startupServiceFactory,
+      deps: [ChatService, AuthService],
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

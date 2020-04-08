@@ -20,18 +20,7 @@ export class ChatService {
     const chat = this.chatList$.value.find(item => item._id === id);
     if (chat) {
       this.currentChat$.next(chat);
-      return;
     }
-    this.getChatById(id).subscribe();
-  }
-
-  public getChatById(id: string) {
-    return this.http.get('dialogs/' + id)
-      .pipe(
-        tap((chat: IChat) => {
-          this.currentChat$.next(chat);
-        }),
-        map((chat: IChat) => chat));
   }
 
   public getChatList() {
@@ -46,11 +35,15 @@ export class ChatService {
   public createChat(data): Observable<IChat> {
     const userId = this.auth.currentUser._id;
     data.owners ? data.owners.push(userId) : data.owners = [userId];
+    if (!data.members.some(member => member._id === userId)) {
+      data.members.push(userId);
+    }
 
     return this.http.post('dialogs', data)
       .pipe(
         tap((chat: IChat) => {
           this.chatList$.next([chat, ...this.chatList$.value]);
+          this.currentChat$.next(chat);
         }),
         map((chat: IChat) => chat));
   }

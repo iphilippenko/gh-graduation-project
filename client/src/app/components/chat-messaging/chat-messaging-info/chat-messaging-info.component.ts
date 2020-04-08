@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {IChat} from '../../../interfaces/chat.interface';
 
 @Component({
   selector: 'chat-messaging-info',
@@ -6,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./chat-messaging-info.component.scss']
 })
 export class ChatMessagingInfoComponent implements OnInit {
+  @Input() chat: IChat;
   public showMembersDialog = false;
   public menuShown = false;
 

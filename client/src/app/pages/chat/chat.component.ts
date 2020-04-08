@@ -1,7 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, flatMap, takeUntil} from 'rxjs/operators';
 import {ChatService} from '../../services/chat.service';
+import {MessageService} from '../../services/message.service';
 
 @Component({
   selector: 'app-chat',
@@ -11,11 +13,14 @@ import {ChatService} from '../../services/chat.service';
 export class ChatComponent implements OnInit, OnDestroy {
   private unsubscribeAll = new Subject();
 
-  constructor(public chatService: ChatService) {
+  constructor(public chatService: ChatService,
+              public messageService: MessageService,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.getChatList();
+    this.listenChatChange();
+    this.listenParamsChange();
   }
 
   ngOnDestroy() {
@@ -23,10 +28,24 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.unsubscribeAll.complete();
   }
 
-  public getChatList() {
-    this.chatService.getChatList()
-      .pipe(takeUntil(this.unsubscribeAll))
+  private listenChatChange() {
+    this.chatService.currentChat$
+      .pipe(
+        takeUntil(this.unsubscribeAll),
+        filter(chat => chat !== null),
+        flatMap(chat => this.messageService.getMessages(chat._id))
+      )
       .subscribe();
+  }
+
+  private listenParamsChange() {
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe(params => {
+        if (params.has('id')) {
+          this.chatService.findChatById(params.get('id'));
+        }
+      });
   }
 
   public createChat(chat) {

@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {FlexModule} from '@angular/flex-layout';
 import {ButtonModule} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
@@ -28,7 +29,8 @@ import {PipesModule} from '../../pipes/pipes.module';
     DialogModule,
     InputTextModule,
     AddUserModule,
-    PipesModule
+    PipesModule,
+    RouterModule
   ],
   exports: [
     ChatListComponent,

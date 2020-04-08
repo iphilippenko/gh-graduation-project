@@ -1,4 +1,6 @@
-<li fxLayout="row" fxLayoutAlign="start center">
+<li fxLayout="row" fxLayoutAlign="start center"
+    [routerLink]="'../' + item?._id"
+    [class.selected]="(chatService.currentChat$ | async)?._id === item?._id">
   <div class="avatar">
     <img [src]="(item?.members[0]?.avatar || item?.lastMessage?.owner?.avatar) | resolveUploads | setDummy" alt="">
   </div>

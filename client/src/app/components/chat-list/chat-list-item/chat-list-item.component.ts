@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { IChat } from '../../../interfaces/chat.interface';
+import {ChatService} from '../../../services/chat.service';
 
 @Component({
   selector: 'chat-list-item',
@@ -9,7 +10,7 @@ import { IChat } from '../../../interfaces/chat.interface';
 export class ChatListItemComponent implements OnInit {
   @Input() item: IChat;
 
-  constructor() {
+  constructor(public chatService?: ChatService) {
   }
 
   ngOnInit() {
