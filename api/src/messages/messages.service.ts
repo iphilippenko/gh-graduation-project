@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Document } from 'mongoose';
 import { SearchQueries } from 'src/common/dto/SearchQueries.dto';
+import { populateUserRelationshipOptions } from 'src/common/utils';
 import { DialogsService } from 'src/dialogs/dialogs.service';
 import { Message } from './schemas/message.schema';
 
@@ -18,12 +19,14 @@ export class MessagesService {
     const { _id, dialog } = message;
 
     await this.dialogsService.update(dialog, { lastMessage: _id });
-    return message;
+    return await message
+      .populate(populateUserRelationshipOptions('owner'))
+      .execPopulate();
   }
 
   async delete(_id: Message['_id'], owner: string) {
     const message = await this.messageModel.findOneAndDelete({ _id, owner });
-    const {  dialog: dialogId } = message;
+    const { dialog: dialogId } = message;
 
     let dialog = await this.dialogsService.findById(dialogId);
     if (String(dialog.lastMessage) === String(_id)) {
@@ -43,7 +46,9 @@ export class MessagesService {
     return await this.messageModel
       .find({ dialog, ...filters })
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .populate(populateUserRelationshipOptions('owner'))
+      .exec();
   }
 
   async findLastMessage() {
@@ -51,10 +56,9 @@ export class MessagesService {
   }
 
   async update(_id: Message['_id'], body: Message['body'], owner: string) {
-    return await this.messageModel.findOneAndUpdate(
-      { _id, owner },
-      { $set: { body } },
-      { new: true },
-    );
+    return await this.messageModel
+      .findOneAndUpdate({ _id, owner }, { $set: { body } }, { new: true })
+      .populate(populateUserRelationshipOptions('owner'))
+      .exec();
   }
 }
