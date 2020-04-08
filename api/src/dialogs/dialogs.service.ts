@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Document } from 'mongoose';
+import { Model, Document, DocumentQuery } from 'mongoose';
+import { populateUserRelationshipOptions } from 'src/common/utils';
 import { Dialog } from './schemas/dialog.schema';
-import { SearchQueries } from 'src/common/dto/SearchQueries.dto';
 
 @Injectable()
 export class DialogsService {
@@ -11,47 +11,68 @@ export class DialogsService {
     private readonly dialogModel: Model<Dialog & Document>,
   ) {}
 
-  create(dialog: Partial<Dialog>) {
-    return this.dialogModel.create(dialog);
+  private async populate<T extends (Dialog & Document) | (Dialog & Document)[]>(
+    documentQuery: DocumentQuery<T, Dialog & Document, {}>,
+  ): Promise<T> {
+    return documentQuery
+      .populate(populateUserRelationshipOptions('members'))
+      .populate(populateUserRelationshipOptions('owners'))
+      .populate({
+        path: 'lastMessage',
+        populate: populateUserRelationshipOptions('owner'),
+      })
+      .exec();
+  }
+
+  async create(dialog: Partial<Dialog>) {
+    const user = await this.dialogModel.create(dialog);
+    return await user
+      .populate(populateUserRelationshipOptions('members'))
+      .populate(populateUserRelationshipOptions('owners'))
+      .execPopulate();
   }
 
   delete(id: Dialog['_id']) {
-    return this.dialogModel.findByIdAndDelete(id);
+    return this.populate(this.dialogModel.findByIdAndDelete(id));
   }
 
   async findAll(userId) {
-    return await this.dialogModel.find({ members: userId });
+    return this.populate<(Dialog & Document)[]>(
+      this.dialogModel.find({ members: userId }),
+    );
   }
 
-  findById(id: Dialog['_id']) {
-    return this.dialogModel.findById(id);
+  async findById(id: Dialog['_id']) {
+    return await this.populate(this.dialogModel.findById(id));
   }
 
   async update(id: Dialog['_id'], dialog: Partial<Dialog>) {
-    return await this.dialogModel.findByIdAndUpdate(
-      id,
-      { $set: dialog },
-      { new: true },
+    return await this.populate(
+      this.dialogModel.findByIdAndUpdate(id, { $set: dialog }, { new: true }),
     );
   }
 
   inviteUser(id, userId) {
-    return this.dialogModel.findByIdAndUpdate(
-      id,
-      {
-        $set: { $push: { members: userId } },
-      },
-      { new: true },
+    return this.populate(
+      this.dialogModel.findByIdAndUpdate(
+        id,
+        {
+          $set: { $push: { members: userId } },
+        },
+        { new: true },
+      ),
     );
   }
 
   removeUser(id, userId) {
-    return this.dialogModel.findByIdAndUpdate(
-      id,
-      {
-        $set: { $pull: { members: userId } },
-      },
-      { new: true },
+    return this.populate(
+      this.dialogModel.findByIdAndUpdate(
+        id,
+        {
+          $set: { $pull: { members: userId } },
+        },
+        { new: true },
+      ),
     );
   }
 }
