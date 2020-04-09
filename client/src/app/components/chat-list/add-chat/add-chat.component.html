@@ -4,6 +4,6 @@
     <input id="float-input" type="text" pInputText formControlName="name" style="width: 100%">
     <label for="float-input">Chat Name</label>
   </span>
-  <add-user fxFlexOffset="15px" (modelChanged)="setMembers($event)"></add-user>
+  <add-user fxFlexOffset="15px" (modelChanged)="setMembers($event)" #addUserComponent></add-user>
   <p-button type="submit" icon="pi pi-check" label="Create" [disabled]="chatForm.invalid"></p-button>
 </form>

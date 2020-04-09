@@ -1,5 +1,5 @@
 <div class="chat-wrapper">
-  <chat-messaging-info [chat]="chat | async"></chat-messaging-info>
+  <chat-messaging-info [chat]="chat | async" [isOwner]="isOwner"></chat-messaging-info>
   <div class="chat-list-wrapper" #chatList>
     <div class="chat-list">
       <chat-messaging-item *ngFor="let item of (messages | async)" [item]="item"></chat-messaging-item>

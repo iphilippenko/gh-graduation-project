@@ -1,18 +1,24 @@
 <ul>
   <li fxLayout="row" fxLayoutAlign="start center" *ngFor="let item of members">
     <div class="avatar">
-      <img *ngIf="item?.avatar" [src]="item?.avatar" alt="">
+      <img [src]="item?.avatar | resolveUploads | setDummy" alt="">
     </div>
     <div fxLayout="column" fxFlex fxFlexOffset="10px">
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <b>{{item?.userName}}</b>
 
-        <p-button icon="pi pi-trash" class="ui-button-danger"></p-button>
+        <p-button *ngIf="isOwner && item?._id !== auth.currentUser._id" icon="pi pi-trash"
+                  class="ui-button-danger" (onClick)="deleteMember(item?._id)"></p-button>
       </div>
     </div>
   </li>
 </ul>
 
-<add-user></add-user>
-
-<p-button class="save" icon="pi pi-check" label="Save changes"></p-button>
+<div class="row" *ngIf="isOwner">
+  <add-user [multiple]="false" (modelChanged)="userAdded($event)" #addUserComponent></add-user>
+  <p-button fxFlexOffset="15px"
+            icon="pi pi-check"
+            label="Add"
+            [disabled]="!userToAdd"
+            (onClick)="addMember()"></p-button>
+</div>

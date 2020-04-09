@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CHAT_TYPES} from '../../../enums/chat-type.enum';
-import {AuthService} from '../../../services/auth.service';
 import {IUser} from '../../../interfaces/user.interface';
+import {AddUserComponent} from '../../add-user/add-user.component';
 
 const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -16,6 +16,7 @@ export class AddChatComponent implements OnInit {
   types = Object.values(CHAT_TYPES).map(type => ({value: type, label: capitalize(type)}));
 
   @Output() chatCreated = new EventEmitter();
+  @ViewChild('addUserComponent', {static: false}) addUserComponent: AddUserComponent;
 
   constructor(private fb: FormBuilder) {
   }
@@ -38,7 +39,9 @@ export class AddChatComponent implements OnInit {
   }
 
   public createChat() {
+    this.addUserComponent.resetInput();
     this.chatCreated.emit(this.chatForm.value);
+    this.chatForm.reset();
   }
 
 }

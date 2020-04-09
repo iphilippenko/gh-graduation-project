@@ -24,6 +24,7 @@ import {CHAT_TYPES} from '../../enums/chat-type.enum';
 export class ChatMessagingComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentUser = this.auth.userInfo$.value;
   public inputEnabled = true;
+  public isOwner = true;
   @Input() messages: BehaviorSubject<Array<IMessage>>;
   @Input() chat: BehaviorSubject<IChat>;
   @Output() sendMessage = new EventEmitter();
@@ -41,12 +42,18 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit, OnDestroy 
         takeUntil(this.unsubscribeAll)
       ).subscribe(chat => {
       this.inputEnabled = chat.type !== CHAT_TYPES.channel || this.isOwnChannel(chat);
+      this.isOwner = this.isOwnChat(chat);
+      console.log(this.isOwner, this.inputEnabled)
       this.scrollBottom();
     });
   }
 
+  private isOwnChat(chat): boolean {
+    return chat.owners.some(owner => owner._id === this.auth.currentUser._id);
+  }
+
   private isOwnChannel(chat): boolean {
-    return chat.type === CHAT_TYPES.channel && chat.owners.some(owner => owner._id === this.auth.currentUser._id);
+    return chat.type === CHAT_TYPES.channel && this.isOwnChat(chat);
   }
 
   ngOnDestroy() {
