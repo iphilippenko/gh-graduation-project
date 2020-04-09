@@ -10,6 +10,7 @@ import {MembersListComponent} from './members-list/members-list.component';
 import {DialogModule} from 'primeng/dialog';
 import {AddUserModule} from '../add-user/add-user.module';
 import {ButtonModule} from "primeng/button";
+import {PipesModule} from "../../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -19,15 +20,16 @@ import {ButtonModule} from "primeng/button";
     ChatMessagingInfoComponent,
     MembersListComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FlexModule,
-    DialogModule,
-    AddUserModule,
-    ButtonModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FlexModule,
+        DialogModule,
+        AddUserModule,
+        ButtonModule,
+        PipesModule
+    ],
   exports: [
     ChatMessagingComponent,
     ChatMessagingItemComponent,

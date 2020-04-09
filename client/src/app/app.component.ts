@@ -3,6 +3,8 @@ import {filter, mergeMap, takeUntil} from 'rxjs/operators';
 import {AuthService} from './services/auth.service';
 import {ChatService} from './services/chat.service';
 import {Subject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {Socket} from "ngx-socket-io";
 
 @Component({
   selector: 'app-root',
@@ -11,8 +13,8 @@ import {Subject} from "rxjs";
 })
 export class AppComponent implements OnInit, OnDestroy {
   private unsubscribeAll = new Subject();
-  constructor(private authService: AuthService,
-              public chatService: ChatService) {
+
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -30,16 +32,9 @@ export class AppComponent implements OnInit, OnDestroy {
       mergeMap(() => this.authService.userInfo()),
       takeUntil(this.unsubscribeAll)
     ).subscribe(user => {
-      this.getChatList();
       this.authService.currentUser = user;
       this.authService.userInfo$.next(user);
     });
-  }
-
-  private getChatList() {
-    this.chatService.getChatList()
-      .pipe(takeUntil(this.unsubscribeAll))
-      .subscribe();
   }
 
 }

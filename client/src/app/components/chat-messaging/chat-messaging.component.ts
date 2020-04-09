@@ -1,10 +1,20 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {IMessage} from '../../interfaces/message.interface';
 import {IChat} from '../../interfaces/chat.interface';
-import {takeUntil} from "rxjs/operators";
-import {CHAT_TYPES} from "../../enums/chat-type.enum";
+import {filter, takeUntil} from 'rxjs/operators';
+import {CHAT_TYPES} from '../../enums/chat-type.enum';
 
 @Component({
   selector: 'chat-messaging',
@@ -16,6 +26,7 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit, OnDestroy 
   public inputEnabled = true;
   @Input() messages: BehaviorSubject<Array<IMessage>>;
   @Input() chat: BehaviorSubject<IChat>;
+  @Output() sendMessage = new EventEmitter();
   @ViewChild('chatList', {static: false}) chatList: ElementRef<HTMLDivElement>;
 
   private unsubscribeAll = new Subject();
@@ -24,13 +35,18 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit() {
-    this.chat.pipe(takeUntil(this.unsubscribeAll)).subscribe(chat => {
+    this.chat
+      .pipe(
+        filter(val => val !== null),
+        takeUntil(this.unsubscribeAll)
+      ).subscribe(chat => {
       this.inputEnabled = chat.type !== CHAT_TYPES.channel || this.isOwnChannel(chat);
+      this.scrollBottom();
     });
   }
 
   private isOwnChannel(chat): boolean {
-    return chat.type === CHAT_TYPES.channel && chat.owners.includes(this.auth.currentUser._id);
+    return chat.type === CHAT_TYPES.channel && chat.owners.some(owner => owner._id === this.auth.currentUser._id);
   }
 
   ngOnDestroy() {
@@ -39,9 +55,13 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit(): void {
+    this.scrollBottom();
+  }
+
+  private scrollBottom() {
     setTimeout(() => {
-      this.chatList.nativeElement.scrollTop = this.chatList.nativeElement.clientHeight;
-    });
+      this.chatList.nativeElement.scrollTop = this.chatList.nativeElement.scrollHeight || this.chatList.nativeElement.clientHeight;
+    }, 200);
   }
 
 }

@@ -5,5 +5,5 @@
       <chat-messaging-item *ngFor="let item of (messages | async)" [item]="item"></chat-messaging-item>
     </div>
   </div>
-  <chat-messaging-input *ngIf="inputEnabled"></chat-messaging-input>
+  <chat-messaging-input *ngIf="inputEnabled" (sendMessage)="sendMessage.emit($event)"></chat-messaging-input>
 </div>

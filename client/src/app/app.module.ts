@@ -15,12 +15,10 @@ import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {AuthService} from './services/auth.service';
 import {ChatService} from './services/chat.service';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import {environment} from '../environments/environment';
 
-export function startupServiceFactory(chatService: ChatService, auth: AuthService) {
-  if (auth.isAuthenticated()) {
-    return () => chatService.getChatList().toPromise();
-  }
-}
+const config: SocketIoConfig = { url: environment.socketUrl, options: { autoConnect : false } };
 
 @NgModule({
   declarations: [
@@ -33,7 +31,8 @@ export function startupServiceFactory(chatService: ChatService, auth: AuthServic
     FlexLayoutModule,
     BrowserAnimationsModule,
     ToastModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     MessageService,
@@ -54,13 +53,6 @@ export function startupServiceFactory(chatService: ChatService, auth: AuthServic
       useClass: AuthInterceptor,
       multi: true,
       deps: [AuthService]
-    },
-    {
-      // Provider for APP_INITIALIZER
-      provide: APP_INITIALIZER,
-      useFactory: startupServiceFactory,
-      deps: [ChatService, AuthService],
-      multi: true
     }
   ],
   bootstrap: [AppComponent]

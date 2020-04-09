@@ -16,6 +16,15 @@ export class ChatService {
               private auth: AuthService) {
   }
 
+  public setLastMessage(message) {
+    const chatList = [...this.chatList$.value];
+    const chatIndex = chatList.findIndex(chat => chat._id === message.dialog);
+    if (chatIndex > -1) {
+      chatList[chatIndex].lastMessage = message;
+      this.chatList$.next([...chatList]);
+    }
+  }
+
   public findChatById(id: string) {
     const chat = this.chatList$.value.find(item => item._id === id);
     if (chat) {
