@@ -1,6 +1,7 @@
 import { prop, buildSchema } from '@typegoose/typegoose';
 import { ApiHideProperty } from '@nestjs/swagger';
 import { Schema } from 'mongoose';
+import { User } from 'src/users/schemas/user.schema';
 
 export class Message {
   @ApiHideProperty()
@@ -14,6 +15,9 @@ export class Message {
 
   @prop({ type: Schema.Types.ObjectId, ref: 'User' })
   owner: string;
+
+  @prop({ type: Schema.Types.ObjectId, ref: 'User' })
+  peopleWhoRead: User[] | string[];
 }
 
 export const MessageSchema = buildSchema(Message, {

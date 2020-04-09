@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  UseGuards,
   Post,
   Body,
   Put,
@@ -14,7 +13,6 @@ import { Auth } from 'src/common/decorators';
 import { Dialog } from './schemas/dialog.schema';
 import { CreateDialogDto, UpdateDialogDto } from './dto';
 import { DialogsService } from './dialogs.service';
-import { AuthGuard } from '@nestjs/passport';
 
 @Auth()
 @ApiTags('Dialogs')
@@ -22,12 +20,15 @@ import { AuthGuard } from '@nestjs/passport';
 export class DialogsController {
   constructor(private readonly dialogsService: DialogsService) {}
 
-  // @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll(@Req() req): Promise<Dialog[]> {
-    console.log(req)
-    const userId = req.user._id
+    const userId = req.user._id;
     return this.dialogsService.findAll(userId);
+  }
+
+  @Get(':id')
+  findById(@Param('id') id: string): Promise<Dialog> {
+    return this.dialogsService.findById(id);
   }
 
   @Post()
@@ -44,17 +45,23 @@ export class DialogsController {
   }
 
   @Put(':id/user/:userId')
-  inviteUser(@Param('id') id: string, @Param('userId') userId: string) {
+  inviteUser(
+    @Param('id') id: string,
+    @Param('userId') userId: string,
+  ): Promise<Dialog> {
     return this.dialogsService.inviteUser(id, userId);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id') id: string): Promise<Dialog> {
     return this.dialogsService.delete(id);
   }
 
   @Delete(':id/user/:userId')
-  removeUser(@Param('id') id: string, @Param('userId') userId: string) {
+  removeUser(
+    @Param('id') id: string,
+    @Param('userId') userId: string,
+  ): Promise<Dialog> {
     return this.dialogsService.removeUser(id, userId);
   }
 }

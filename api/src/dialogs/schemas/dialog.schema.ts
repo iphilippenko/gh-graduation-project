@@ -1,4 +1,4 @@
-import { prop, buildSchema } from '@typegoose/typegoose';
+import { prop, buildSchema, Ref } from '@typegoose/typegoose';
 import { ApiHideProperty } from '@nestjs/swagger';
 import { Schema } from 'mongoose';
 import { Message } from 'src/messages/schemas/message.schema';
@@ -17,17 +17,17 @@ export class Dialog {
   @prop()
   name: string;
 
-  @prop([{ type: Schema.Types.ObjectId, ref: 'User' }])
-  owners: User[] | string[];
+  @prop({ ref: 'User' })
+  owners: Ref<User>[];
 
-  @prop([{ type: Schema.Types.ObjectId, ref: 'User' }])
-  members: User[] | string[];
+  @prop({ ref: 'User' })
+  members: Ref<User>[];
 
   @prop({ enum: ['private', 'group', 'channel'], default: 'private' })
   type: DialogType;
 
-  @prop({ type: Schema.Types.ObjectId, ref: 'Message' })
-  lastMessage: Message | string;
+  @prop({ ref: 'Message' })
+  lastMessage: Ref<Message>;
 }
 
 export const DialogSchema = buildSchema(Dialog, {
