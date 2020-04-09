@@ -50,6 +50,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         flatMap(chat => this.messageService.getMessages(chat._id))
       )
       .subscribe(() => {
+        console.log('chat change')
         this.messageService.joinChat(this.chatService.currentChat$.value._id);
       });
   }

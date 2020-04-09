@@ -21,10 +21,13 @@ export class MessageService {
 
   // tslint:disable-next-line:variable-name
   public connect(auth_token) {
-    console.log('connect')
     this.socket.ioSocket.io.opts.query = {auth_token};
     this.socket.connect();
     this.subscribeOnEvents();
+  }
+
+  public disconnect() {
+    this.socket.disconnect();
   }
 
   public joinChat(id) {

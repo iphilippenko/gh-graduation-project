@@ -39,9 +39,8 @@ export class AuthService {
       this.cookie.set('access_token', token);
       this.cookie.set('user', JSON.stringify(dataToSet));
     } else {
-      ['access_token', 'user'].forEach(el => {
-        this.cookie.delete(el);
-      });
+      this.cookie.delete('access_token');
+      this.cookie.delete('user');
     }
     this.authChange$.next(dataToSet !== null);
   }
