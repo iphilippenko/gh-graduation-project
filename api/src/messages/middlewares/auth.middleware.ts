@@ -1,6 +1,6 @@
 import { UnauthorizedException } from '@nestjs/common';
 import * as jwtAuth from 'socketio-jwt-auth';
-import config from 'src/common/config'
+import config from 'src/common/config';
 
 export const AuthSocket = jwtAuth.authenticate(
   {
