@@ -42,6 +42,14 @@ export class MessageService {
     }, 500);
   }
 
+  public leaveChat(id) {
+    const i = this.joinedRooms.indexOf(id);
+    if (i > -1) {
+      this.joinedRooms.splice(i, 1);
+    }
+    this.socket.emit('leave', id);
+  }
+
   public setUserTyping(isTyping: boolean) {
     this.socket.emit(`${isTyping ? 'start' : 'end'}-typing`, this.chat.currentChat$.value._id);
   }

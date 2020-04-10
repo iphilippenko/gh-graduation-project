@@ -31,6 +31,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.unsubscribeAll.complete();
   }
 
+  private navigateFirstChat() {
+    this.router.navigate(['/chat/' + this.chatService.chatList$.value[0]._id]);
+  }
+
   private onAuthChange() {
     this.authService.authChange$.pipe(
       filter(val => val),
@@ -53,6 +57,16 @@ export class ChatComponent implements OnInit, OnDestroy {
         console.log('chat change')
         this.messageService.joinChat(this.chatService.currentChat$.value._id);
       });
+    this.chatService.chatLeave$
+      .pipe(
+        takeUntil(this.unsubscribeAll),
+      )
+      .subscribe((id) => {
+        this.messageService.leaveChat(id);
+        if (this.chatService.currentChat$.value._id === id) {
+          this.navigateFirstChat();
+        }
+      });
   }
 
   private listenParamsChange() {
@@ -62,7 +76,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (params.has('id')) {
           this.chatService.findChatById(params.get('id'));
         } else {
-          this.router.navigate(['/chat/' + this.chatService.chatList$.value[0]._id]);
+          this.navigateFirstChat();
         }
       });
   }

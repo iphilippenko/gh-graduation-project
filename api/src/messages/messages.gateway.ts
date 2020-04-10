@@ -28,6 +28,10 @@ export class MessagesGateway
     client.join(dialog);
   };
 
+  private leaveRoom = (client: Socket, dialog: string) => {
+    client.leave(dialog);
+  };
+
   private emitEvent = (
     client: Socket,
     event: string,
@@ -41,6 +45,11 @@ export class MessagesGateway
   @SubscribeMessage('join')
   async handleJoin(client: Socket, dialog: string) {
     this.joinRoom(client, dialog);
+  }
+
+  @SubscribeMessage('leave')
+  async handleLeave(client: Socket, dialog: string) {
+    this.leaveRoom(client, dialog);
   }
 
   @SubscribeMessage('send')
