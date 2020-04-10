@@ -73,13 +73,13 @@ export class MessagesGateway
   @SubscribeMessage('start-typing')
   async handleStartTyping(client: Socket, dialog: string) {
     const userId = client.request.user._id;
-    this.emitEvent(client, 'start-typing', dialog, { userId });
+    this.emitEvent(client, 'start-typing', dialog, { userId, dialog });
   }
 
   @SubscribeMessage('end-typing')
   async handleEndTyping(client: Socket, dialog: string) {
     const userId = client.request.user._id;
-    this.emitEvent(client, 'end-typing', dialog, { userId });
+    this.emitEvent(client, 'end-typing', dialog, { userId, dialog });
   }
 
   handleDisconnect(client: Socket) {

@@ -6,12 +6,14 @@ import {IMessage} from '../interfaces/message.interface';
 import {Socket} from 'ngx-socket-io';
 import {AuthService} from './auth.service';
 import {ChatService} from './chat.service';
+import {IUser} from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
   public chatMessagesList$: BehaviorSubject<Array<IMessage>> = new BehaviorSubject<Array<IMessage>>([]);
+  public somebodyTyping$: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
   private joinedRooms = [];
 
   constructor(private http: HttpClient,
@@ -35,15 +37,30 @@ export class MessageService {
     if (!this.joinedRooms.includes(id)) {
       this.joinedRooms.push(id);
     }
-    console.log('join', id)
     setTimeout(() => {
       this.socket.emit('join', id);
     }, 500);
   }
 
+  public setUserTyping(isTyping: boolean) {
+    this.socket.emit(`${isTyping ? 'start' : 'end'}-typing`, this.chat.currentChat$.value._id);
+  }
+
   private subscribeOnEvents() {
     this.socket.on('send', (message) => {
       this.pushMessage(message);
+    });
+    this.socket.on('start-typing', ({userId, dialog}) => {
+      const currentChat = this.chat.currentChat$.value;
+      const member = currentChat.members.find(user => user._id === userId);
+      if (dialog === currentChat._id && member) {
+        this.somebodyTyping$.next(member);
+      }
+    });
+    this.socket.on('end-typing', ({dialog}) => {
+      if (dialog === this.chat.currentChat$.value._id) {
+        this.somebodyTyping$.next(null);
+      }
     });
   }
 

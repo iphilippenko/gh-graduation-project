@@ -1,4 +1,5 @@
 <form class="row" (ngSubmit)="send()">
-  <input type="text" [(ngModel)]="body" [ngModelOptions]="{standalone: true}"/>
+  <span *ngIf="typingMember">{{typingMember?.userName}} is typing...</span>
+  <input type="text" [(ngModel)]="body" [ngModelOptions]="{standalone: true}" (ngModelChange)="changed($event)"/>
   <button class="send" type="submit"></button>
 </form>

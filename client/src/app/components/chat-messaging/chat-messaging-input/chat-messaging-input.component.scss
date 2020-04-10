@@ -6,6 +6,7 @@ form {
   width: 100%;
   padding: 20px 28px;
   position: relative;
+  font-family: 'Source Sans Pro', sans-serif;
 
   input {
     padding: 5px 42px 5px 12px;
@@ -17,6 +18,14 @@ form {
     color: var(--dark);
     caret-color: var(--dark);
     outline: none;
+  }
+
+  span {
+    position: absolute;
+    top: 5px;
+    left: 28px;
+    color: var(--grey);
+    font-size: 11px;
   }
 
   button.send {
