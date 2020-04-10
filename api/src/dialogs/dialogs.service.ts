@@ -56,9 +56,7 @@ export class DialogsService {
     return this.populate(
       this.dialogModel.findByIdAndUpdate(
         id,
-        {
-          $set: { $push: { members: userId } },
-        },
+        { $push: { members: userId } },
         { new: true },
       ),
     );
@@ -68,9 +66,7 @@ export class DialogsService {
     return this.populate(
       this.dialogModel.findByIdAndUpdate(
         id,
-        {
-          $set: { $pull: { members: userId } },
-        },
+        { $pull: { members: userId } },
         { new: true },
       ),
     );
