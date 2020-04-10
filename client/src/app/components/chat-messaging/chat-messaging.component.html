@@ -2,7 +2,8 @@
   <chat-messaging-info [chat]="chat | async" [isOwner]="isOwner"></chat-messaging-info>
   <div class="chat-list-wrapper" #chatList>
     <div class="chat-list">
-      <chat-messaging-item *ngFor="let item of (messages | async)" [item]="item"></chat-messaging-item>
+      <chat-messaging-item *ngFor="let item of (messages | async)" [item]="item"
+                           (delete)="deleteMessage.emit($event)"></chat-messaging-item>
     </div>
   </div>
   <chat-messaging-input *ngIf="inputEnabled" (sendMessage)="sendMessage.emit($event)"></chat-messaging-input>

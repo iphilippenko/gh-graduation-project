@@ -5,7 +5,7 @@ export interface IChat {
   _id: string;
   name: string;
   members: Array<IUser>;
-  lastMessage: IMessage;
+  lastMessage: IMessage | null;
   owners: Array<IUser>;
   type: string;
   createdAt: Date;

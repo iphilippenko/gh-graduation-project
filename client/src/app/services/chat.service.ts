@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {IChat} from '../interfaces/chat.interface';
 import {AuthService} from './auth.service';
@@ -12,10 +12,10 @@ import {AuthService} from './auth.service';
 export class ChatService {
   public chatList$: BehaviorSubject<Array<IChat>> = new BehaviorSubject<Array<IChat>>([]);
   public currentChat$: BehaviorSubject<IChat | null> = new BehaviorSubject<IChat | null>(null);
+  public chatLeave$: Subject<string> = new Subject<string>();
 
   constructor(private http: HttpClient,
-              private auth: AuthService,
-              private router: Router) {
+              private auth: AuthService) {
   }
 
   public setLastMessage(message) {
@@ -65,9 +65,7 @@ export class ChatService {
     if (chatIndex > -1) {
       chatList.splice(chatIndex, 1);
       this.chatList$.next([...chatList]);
-      if (this.currentChat$.value._id === id) {
-        this.router.navigate(['/chat/' + chatList[0]._id]);
-      }
+      this.chatLeave$.next(id);
     }
   }
 

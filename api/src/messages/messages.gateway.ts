@@ -24,15 +24,33 @@ export class MessagesGateway
     this.server.use(AuthSocket);
   }
 
+  private joinRoom = (client: Socket, dialog: string) => {
+    client.join(dialog);
+  };
+
+  private leaveRoom = (client: Socket, dialog: string) => {
+    client.leave(dialog);
+  };
+
   private emitEvent = (
     client: Socket,
     event: string,
     dialog: string,
     data: object,
   ) => {
-    client.join(dialog);
+    this.joinRoom(client, dialog);
     client.to(dialog).emit(event, data);
   };
+
+  @SubscribeMessage('join')
+  async handleJoin(client: Socket, dialog: string) {
+    this.joinRoom(client, dialog);
+  }
+
+  @SubscribeMessage('leave')
+  async handleLeave(client: Socket, dialog: string) {
+    this.leaveRoom(client, dialog);
+  }
 
   @SubscribeMessage('send')
   async handleSendMessage(client: Socket, payload: CreateMessagDto) {
@@ -40,7 +58,7 @@ export class MessagesGateway
     const message = await this.messagesService.create({ ...payload, owner });
     const { dialog } = message;
 
-    this.emitEvent(client, 'send', dialog, message)
+    this.emitEvent(client, 'send', dialog, message);
   }
 
   @SubscribeMessage('delete')
@@ -48,7 +66,7 @@ export class MessagesGateway
     const owner = client.request.user._id;
     const message = await this.messagesService.delete(messageId, owner);
 
-    this.emitEvent(client, 'delete', message.dialog, message)
+    this.emitEvent(client, 'delete', message.dialog, message);
   }
 
   @SubscribeMessage('update')
@@ -58,19 +76,19 @@ export class MessagesGateway
   ) {
     const owner = client.request.user._id;
     const message = await this.messagesService.update(messageId, body, owner);
-    this.emitEvent(client, 'update', message.dialog, message)
+    this.emitEvent(client, 'update', message.dialog, message);
   }
 
   @SubscribeMessage('start-typing')
-  async handleStartTyping(client: Socket, { dialog }) {
+  async handleStartTyping(client: Socket, dialog: string) {
     const userId = client.request.user._id;
-    this.emitEvent(client, 'start-typing', dialog, { userId })
+    this.emitEvent(client, 'start-typing', dialog, { userId, dialog });
   }
 
   @SubscribeMessage('end-typing')
-  async handleEndTyping(client: Socket, { dialog }) {
+  async handleEndTyping(client: Socket, dialog: string) {
     const userId = client.request.user._id;
-    this.emitEvent(client, 'end-typing', dialog, { userId })
+    this.emitEvent(client, 'end-typing', dialog, { userId, dialog });
   }
 
   handleDisconnect(client: Socket) {

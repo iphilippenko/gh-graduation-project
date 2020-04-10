@@ -3,5 +3,6 @@
   <chat-messaging content [messages]="messageService.chatMessagesList$"
                   [chat]="chatService.currentChat$"
                   (sendMessage)="sendMessage($event)"
+                  (deleteMessage)="deleteMessage($event)"
   ></chat-messaging>
 </layout>

@@ -32,7 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
       mergeMap(() => this.authService.userInfo()),
       takeUntil(this.unsubscribeAll)
     ).subscribe(user => {
-      console.log(user)
       this.authService.currentUser = user;
       this.authService.userInfo$.next(user);
     });
