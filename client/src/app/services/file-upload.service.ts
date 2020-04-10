@@ -14,7 +14,7 @@ export class FileUploadService {
   public fileUpload(file: File): Observable<string> {
     const uploadData = new FormData();
     uploadData.append('file', file);
-    return this.http.post('file', uploadData)
+    return this.http.post('files', uploadData)
       .pipe(
         map((res: { path: string }) => res.path)
       );

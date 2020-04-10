@@ -1,0 +1,9 @@
+<form [formGroup]="chatForm" fxLayout="column" (ngSubmit)="createChat()">
+  <p-selectButton [options]="types" formControlName="type"></p-selectButton>
+  <span class="ui-float-label" fxFlexOffset="27px">
+    <input id="float-input" type="text" pInputText formControlName="name" style="width: 100%">
+    <label for="float-input">Chat Name</label>
+  </span>
+  <add-user fxFlexOffset="15px" (modelChanged)="setMembers($event)" #addUserComponent></add-user>
+  <p-button type="submit" icon="pi pi-check" label="Create" [disabled]="chatForm.invalid"></p-button>
+</form>

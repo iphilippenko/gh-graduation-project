@@ -1,0 +1,18 @@
+<p-autoComplete *ngIf="multiple" [(ngModel)]="members"
+                [suggestions]="results"
+                [field]="'userName'"
+                [dataKey]="'_id'"
+                (completeMethod)="search($event)"
+                [multiple]="multiple"
+                (ngModelChange)="modelChanged.emit(members)"
+                placeholder="Add members"></p-autoComplete>
+<p-autoComplete *ngIf="!multiple" [(ngModel)]="member"
+                [suggestions]="results"
+                [field]="'userName'"
+                [dataKey]="'_id'"
+                (completeMethod)="search($event)"
+                [multiple]="multiple"
+                (onSelect)="modelChanged.emit(member)"
+                (onUnselect)="modelChanged.emit(null)"
+                (onClear)="modelChanged.emit(null)"
+                placeholder="Add member"></p-autoComplete>

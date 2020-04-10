@@ -1,0 +1,14 @@
+<li fxLayout="row" fxLayoutAlign="start center"
+    [routerLink]="'/chat/' + item?._id"
+    [class.selected]="(chatService.currentChat$ | async)?._id === item?._id">
+  <div class="avatar">
+    <img [src]="(item?.lastMessage?.owner?.avatar || item?.members[0]?.avatar) | resolveUploads | setDummy" alt="">
+  </div>
+  <div fxLayout="column" fxFlex fxFlexOffset="10px">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <b>{{item?.name}}</b>
+      <span>{{item?.updatedAt | date: 'd MMM H:mm'}}</span>
+    </div>
+    <p fxFlexOffset="7px">{{item?.lastMessage?.body}}</p>
+  </div>
+</li>

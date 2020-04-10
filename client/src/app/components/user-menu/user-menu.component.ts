@@ -3,7 +3,8 @@ import {mergeMap, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {FileUploadService} from '../../services/file-upload.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {MessageService} from '../../services/message.service';
 
 @Component({
   selector: 'user-menu',
@@ -18,7 +19,8 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   constructor(public authService: AuthService,
               private file: FileUploadService,
-              private router: Router) {
+              private router: Router,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -50,8 +52,11 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   public logout() {
     this.hide();
+    this.messageService.disconnect();
     this.authService.logout();
-    this.router.navigate(['/login']);
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
   public saveAvatar() {

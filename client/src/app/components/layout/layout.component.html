@@ -1,1 +1,11 @@
-<app-header></app-header>
+<div class="column full-height" fxLayout="column">
+  <app-header></app-header>
+  <div class="row" fxFlex fxLayout="row">
+    <p-scrollPanel styleClass="side-menu" [style]="{width: '275px', height: '540px'}">
+      <ng-content select="[menu]"></ng-content>
+    </p-scrollPanel>
+    <div class="layout-content full-height" fxLayout="column">
+      <ng-content select="[content]"></ng-content>
+    </div>
+  </div>
+</div>

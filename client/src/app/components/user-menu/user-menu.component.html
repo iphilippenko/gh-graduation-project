@@ -6,7 +6,8 @@
     (fileChanged)="onImgUpload($event)"
   ></image-upload>
   <ul class="user-menu-list" [class.user-menu-list_shown]="menuShown">
-    <p-button *ngIf="newAvatar" icon="pi pi-upload" iconPos="right" label="Save image" (onClick)="saveAvatar()"></p-button>
+    <p-button *ngIf="newAvatar" icon="pi pi-upload" iconPos="right" label="Save image"
+              (onClick)="saveAvatar()"></p-button>
     <li class="user-menu-list__item" (click)="logout()">
       <i class="pi pi-sign-out"></i>
       Sign Out

@@ -1,0 +1,20 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url(../../../assets/img/fog-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 60% center;
+}
+
+layout {
+  width: 850px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-radius: 5px;
+  box-shadow: 0 5px 5px -5px var(--grey);
+}

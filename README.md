@@ -20,6 +20,8 @@ $ docker-compose up database
 
 ```bash
 $ npm run client:build
+or for production
+$ npm run client:build:prod
 
 $ npm run api:start
 or

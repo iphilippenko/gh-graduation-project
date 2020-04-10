@@ -1,0 +1,28 @@
+<div class="toolbar">
+  <p>
+    <span>To: </span>
+    {{chat?.name}}
+  </p>
+  <div class="chat-menu">
+    <button (click)="toggle()" class="chat-menu-toggle">
+      <i class="pi pi-ellipsis-v"></i>
+    </button>
+    <ul class="chat-menu-list" [class.chat-menu-list_shown]="menuShown">
+      <li class="chat-menu-list__item" (click)="showMembers()">
+        <i class="pi pi-users"></i>
+        Show members
+      </li>
+      <li class="chat-menu-list__item" (click)="leave()" *ngIf="!isOwner">
+        <i class="pi pi-sign-out"></i>
+        Leave chat
+      </li>
+      <li class="chat-menu-list__item" (click)="delete()" *ngIf="isOwner">
+        <i class="pi pi-trash"></i>
+        Delete chat
+      </li>
+    </ul>
+  </div>
+</div>
+<p-dialog header="Members list" [(visible)]="showMembersDialog">
+  <members-list [members]="chat?.members" [isOwner]="isOwner"></members-list>
+</p-dialog>

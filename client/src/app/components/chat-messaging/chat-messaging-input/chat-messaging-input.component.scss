@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+}
+
+form {
+  width: 100%;
+  padding: 20px 28px;
+  position: relative;
+
+  input {
+    padding: 5px 42px 5px 12px;
+    height: 42px;
+    border: 1px solid var(--light);
+    background-color: #eceff1;
+    width: 100%;
+    border-radius: 5px;
+    color: var(--dark);
+    caret-color: var(--dark);
+    outline: none;
+  }
+
+  button.send {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    height: 42px;
+    width: 42px;
+    background-color: transparent;
+    background-image: url(../../../../assets/svg/paper-plane.svg);
+    cursor: pointer;
+    background-size: 65%;
+    background-repeat: no-repeat;
+    border: none;
+    background-position: center;
+    padding: 0;
+    outline: none;
+  }
+}
