@@ -6,8 +6,17 @@ services:
     image: mongo
     volumes:
       - db_data_container:/data/db
-    ports:
-      - '27018:27017'
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ${PWD}/uploads:/usr/src/app/api/uploads
+    links:
+      - database
+    depends_on:
+      - database
+    restart: on-failure
 
 volumes:
   db_data_container:

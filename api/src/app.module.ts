@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 import { CommonModule } from './common/common.module';
 import { UsersModule } from './users/users.module';
 import { MessagesModule } from './messages/messages.module';
@@ -9,6 +11,9 @@ import config from './common/config';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..', 'client'),
+    }),
     MongooseModule.forRoot(config.DB_URL, {
       useCreateIndex: true,
       useNewUrlParser: true,

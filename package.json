@@ -8,6 +8,7 @@
   "scripts": {
     "api:build": "cd api && npm run build",
     "api:start": "cd api && npm run start",
+    "api:start-prod": "cd api && npm run start:prod",
     "api:install-dependencies": "cd api && yarn install",
     "client:build": "cd client && npm run build",
     "client:build:prod": "cd client && npm run build:prod",

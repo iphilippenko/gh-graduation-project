@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  database:
+    expose:
+      - 27017
+    ports:
+      - 27018:27017
+  app:
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - DB_URL=mongodb://mongo:27017/gh-graduation-project
+      - JWT_SECRET=secret
+      - CLIENT_BUILD_URL=/client/dist/client
+    ports:
+      - 5000:5000
