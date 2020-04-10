@@ -12,6 +12,7 @@ import {ChatService} from './chat.service';
 })
 export class MessageService {
   public chatMessagesList$: BehaviorSubject<Array<IMessage>> = new BehaviorSubject<Array<IMessage>>([]);
+  private joinedRooms = [];
 
   constructor(private http: HttpClient,
               private socket: Socket,
@@ -31,6 +32,9 @@ export class MessageService {
   }
 
   public joinChat(id) {
+    if (!this.joinedRooms.includes(id)) {
+      this.joinedRooms.push(id);
+    }
     console.log('join', id)
     setTimeout(() => {
       this.socket.emit('join', id);
@@ -39,7 +43,6 @@ export class MessageService {
 
   private subscribeOnEvents() {
     this.socket.on('send', (message) => {
-      console.log(message);
       this.pushMessage(message);
     });
   }
