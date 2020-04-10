@@ -58,6 +58,9 @@ export class MessageService {
     this.socket.on('send', (message) => {
       this.pushMessage(message);
     });
+    this.socket.on('delete', (message) => {
+      this.deleteMessageFromList(message._id || message);
+    });
     this.socket.on('start-typing', ({userId, dialog}) => {
       const currentChat = this.chat.currentChat$.value;
       const member = currentChat.members.find(user => user._id === userId);
@@ -70,6 +73,21 @@ export class MessageService {
         this.somebodyTyping$.next(null);
       }
     });
+  }
+
+  private deleteMessageFromList(id) {
+    const messages = [...this.chatMessagesList$.value];
+    const i = messages.findIndex(msg => msg._id === id);
+    if (i > -1) {
+      messages.splice(i, 1);
+      this.chatMessagesList$.next([...messages]);
+    }
+    if (this.chat.currentChat$.value.lastMessage._id === id) {
+      this.chat.currentChat$.next({
+        ...this.chat.currentChat$.value,
+        lastMessage: messages[messages.length - 1]
+      });
+    }
   }
 
   private pushMessage(message: IMessage) {
@@ -88,7 +106,12 @@ export class MessageService {
         map((messages: Array<IMessage>) => messages));
   }
 
-  sendMessage(body: string, dialog: string) {
+  public deleteMessage(messageId: string) {
+    this.socket.emit('delete', {messageId});
+    this.deleteMessageFromList(messageId);
+  }
+
+  public sendMessage(body: string, dialog: string) {
     this.socket.emit('send', {dialog, body});
     const message: IMessage = {
       body,

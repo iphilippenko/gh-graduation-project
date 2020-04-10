@@ -28,6 +28,7 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit, OnDestroy 
   @Input() messages: BehaviorSubject<Array<IMessage>>;
   @Input() chat: BehaviorSubject<IChat>;
   @Output() sendMessage = new EventEmitter();
+  @Output() deleteMessage = new EventEmitter();
   @ViewChild('chatList', {static: false}) chatList: ElementRef<HTMLDivElement>;
 
   private unsubscribeAll = new Subject();
@@ -43,7 +44,6 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit, OnDestroy 
       ).subscribe(chat => {
       this.inputEnabled = chat.type !== CHAT_TYPES.channel || this.isOwnChannel(chat);
       this.isOwner = this.isOwnChat(chat);
-      console.log(this.isOwner, this.inputEnabled)
       this.scrollBottom();
     });
   }

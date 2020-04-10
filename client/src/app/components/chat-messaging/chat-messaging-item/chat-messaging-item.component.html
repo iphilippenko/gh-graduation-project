@@ -1,9 +1,14 @@
 <div class="message" [class.message-own]="(auth?.userInfo$ | async)?._id === item?.owner?._id">
   <div class="message-wrapper">
+    <button class="message-delete"
+            *ngIf="(auth?.userInfo$ | async)?._id === item?.owner?._id && item?._id"
+            (click)="delete.emit(item?._id)">
+      <i class="pi pi-trash"></i>
+    </button>
     <p class="message-text">{{item?.body}}</p>
     <span class="message-date">{{item?.createdAt | date: 'd MMM H:mm'}}</span>
   </div>
   <div class="avatar">
-    <img [src]="item?.owner?.avatar  | resolveUploads | setDummy" alt="">
+    <img [src]="item?.owner?.avatar | resolveUploads | setDummy" alt="">
   </div>
 </div>
