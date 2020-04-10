@@ -24,21 +24,31 @@ export class MessagesGateway
     this.server.use(AuthSocket);
   }
 
+  private emitEvent = (
+    client: Socket,
+    event: string,
+    dialog: string,
+    data: object,
+  ) => {
+    client.join(dialog);
+    client.to(dialog).emit(event, data);
+  };
+
   @SubscribeMessage('send')
   async handleSendMessage(client: Socket, payload: CreateMessagDto) {
     const owner = client.request.user._id;
-
     const message = await this.messagesService.create({ ...payload, owner });
     const { dialog } = message;
 
-    client.to(dialog).emit('send', message);
+    this.emitEvent(client, 'send', dialog, message)
   }
 
   @SubscribeMessage('delete')
   async handleDeleteMessage(client: Socket, { messageId }: DeleteMessageDto) {
     const owner = client.request.user._id;
     const message = await this.messagesService.delete(messageId, owner);
-    client.to(message.dialog).emit('delete', message);
+
+    this.emitEvent(client, 'delete', message.dialog, message)
   }
 
   @SubscribeMessage('update')
@@ -48,13 +58,19 @@ export class MessagesGateway
   ) {
     const owner = client.request.user._id;
     const message = await this.messagesService.update(messageId, body, owner);
-    client.to(message.dialog).emit('update', message);
+    this.emitEvent(client, 'update', message.dialog, message)
   }
 
-  @SubscribeMessage('typing')
-  async handleTyping(client: Socket, { dialog }) {
+  @SubscribeMessage('start-typing')
+  async handleStartTyping(client: Socket, { dialog }) {
     const userId = client.request.user._id;
-    client.to(dialog).emit('typing', { userId });
+    this.emitEvent(client, 'start-typing', dialog, { userId })
+  }
+
+  @SubscribeMessage('end-typing')
+  async handleEndTyping(client: Socket, { dialog }) {
+    const userId = client.request.user._id;
+    this.emitEvent(client, 'end-typing', dialog, { userId })
   }
 
   handleDisconnect(client: Socket) {
