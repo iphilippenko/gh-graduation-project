@@ -26,7 +26,8 @@ const routes: Routes = [
   },
   {
     path: 'chat/:id',
-    loadChildren: './pages/chat/chat.module#ChatModule'
+    loadChildren: './pages/chat/chat.module#ChatModule',
+    canActivate: [IsLoggedInGuard]
   }
 ];
 

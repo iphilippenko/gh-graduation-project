@@ -2,6 +2,13 @@
   height: 100%;
 }
 
+.no-chat {
+  margin: 20px auto;
+  font-size: 14px;
+  color: var(--grey);
+  text-align: center;
+}
+
 ::ng-deep {
   .chat {
     &-wrapper {

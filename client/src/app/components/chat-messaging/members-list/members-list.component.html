@@ -7,7 +7,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <b>{{item?.userName}}</b>
 
-        <p-button *ngIf="isOwner && item?._id !== auth.currentUser._id" icon="pi pi-trash"
+        <p-button *ngIf="isOwner && item?._id !== auth.currentUser?._id" icon="pi pi-trash"
                   class="ui-button-danger" (onClick)="deleteMember(item?._id)"></p-button>
       </div>
     </div>

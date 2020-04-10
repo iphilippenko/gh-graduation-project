@@ -1,10 +1,15 @@
 <div class="chat-wrapper">
-  <chat-messaging-info [chat]="chat | async" [isOwner]="isOwner"></chat-messaging-info>
-  <div class="chat-list-wrapper" #chatList>
-    <div class="chat-list">
-      <chat-messaging-item *ngFor="let item of (messages | async)" [item]="item"
-                           (delete)="deleteMessage.emit($event)"></chat-messaging-item>
+  <ng-template [ngIf]="!(chat | async)?._id">
+    <p class="no-chat">No chat selected</p>
+  </ng-template>
+  <ng-template [ngIf]="(chat | async)?._id">
+    <chat-messaging-info [chat]="chat | async" [isOwner]="isOwner"></chat-messaging-info>
+    <div class="chat-list-wrapper" #chatList>
+      <div class="chat-list">
+        <chat-messaging-item *ngFor="let item of (messages | async)" [item]="item"
+                             (delete)="deleteMessage.emit($event)"></chat-messaging-item>
+      </div>
     </div>
-  </div>
-  <chat-messaging-input *ngIf="inputEnabled" (sendMessage)="sendMessage.emit($event)"></chat-messaging-input>
+    <chat-messaging-input *ngIf="inputEnabled" (sendMessage)="sendMessage.emit($event)"></chat-messaging-input>
+  </ng-template>
 </div>

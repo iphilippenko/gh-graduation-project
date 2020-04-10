@@ -32,7 +32,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   private navigateFirstChat() {
-    this.router.navigate(['/chat/' + this.chatService.chatList$.value[0]._id]);
+    const list = this.chatService.chatList$.value;
+    if (list.length) {
+      this.router.navigate(['/chat/' + list[0]._id]);
+    }
   }
 
   private onAuthChange() {

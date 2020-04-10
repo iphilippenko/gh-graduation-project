@@ -67,7 +67,10 @@ export class ChatMessagingComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private scrollBottom() {
     setTimeout(() => {
-      this.chatList.nativeElement.scrollTop = this.chatList.nativeElement.scrollHeight || this.chatList.nativeElement.clientHeight;
+      if (this.chatList) {
+        const {nativeElement} = this.chatList;
+        nativeElement.scrollTop = nativeElement.scrollHeight || nativeElement.clientHeight;
+      }
     }, 200);
   }
 
